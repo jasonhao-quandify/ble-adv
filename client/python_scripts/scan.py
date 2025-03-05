@@ -6,9 +6,9 @@ class ScanDelegate(DefaultDelegate):
 
     def handleDiscovery(self, dev, isNewDev, isNewData):
         if isNewDev:
-            print("Discovered device", dev.addr)
+            print("Discovered device", dev.addr,  dev.scanData)
         elif isNewData:
-            print("Received new data from", dev.addr)
+            print("Received new data from", dev.dev.addr, dev.scanData)
 
 scanner = Scanner().withDelegate(ScanDelegate())
 devices = scanner.scan(10.0)
