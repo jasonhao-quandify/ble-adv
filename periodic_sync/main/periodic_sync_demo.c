@@ -128,10 +128,12 @@ static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param
     }
         break;
     case ESP_GAP_BLE_PERIODIC_ADV_REPORT_EVT:
-        ESP_LOGI(LOG_TAG, "Periodic adv report, sync handle %d, data status %d, data len %d, rssi %d", param->period_adv_report.params.sync_handle,
+        ESP_LOGI(LOG_TAG, "Periodic adv report, sync handle %d, data status %d, data len %d, rssi %d, data %s", param->period_adv_report.params.sync_handle,
                                                                                                     param->period_adv_report.params.data_status,
                                                                                                     param->period_adv_report.params.data_length,
-                                                                                                    param->period_adv_report.params.rssi);
+                                                                                                    param->period_adv_report.params.rssi,
+                                                                                                    param->period_adv_report.params.data
+                                                                                                );
         break;
 
     default:
