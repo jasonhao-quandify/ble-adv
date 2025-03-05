@@ -81,13 +81,15 @@ static uint8_t periodic_adv_raw_data[] = {
         0x02, ESP_BLE_AD_TYPE_FLAG, 0x06,
         0x02, ESP_BLE_AD_TYPE_TX_PWR, 0xeb,
         0x03, ESP_BLE_AD_TYPE_16SRV_CMPL, 0xab, 0xcd,
-        0x11, ESP_BLE_AD_TYPE_NAME_CMPL, 'E', 'S', 'P', '_', 'P', 'E', 'R', 'I', 'O', 'D', 'I', 'C', '_', 'A', 'D', 'V'
+        0x11, ESP_BLE_AD_TYPE_NAME_CMPL, 'E', 'S', 'P', '_', 'P', 'E', 'R', 'I', 'O', 'D', 'I', 'C', '_', 'A', 'D', 'V',
+        0x05, ESP_BLE_AD_MANUFACTURER_SPECIFIC_TYPE, 0x05, 0x06, 0x07, 0x08 // Manufacturer Specific Data
 };
 
 static uint8_t raw_ext_adv_data_2m[] = {
         0x02, ESP_BLE_AD_TYPE_FLAG, 0x06,
         0x02, ESP_BLE_AD_TYPE_TX_PWR, 0xeb,
-        0x11, ESP_BLE_AD_TYPE_NAME_CMPL, 'E', 'S', 'P', '_', 'E', 'X', 'T', 'E', 'N', 'D', 'E', 'D', '_', 'A', 'D', 'V'
+        0x11, ESP_BLE_AD_TYPE_NAME_CMPL, 'E', 'S', 'P', '_', 'E', 'X', 'T', 'E', 'N', 'D', 'E', 'D', '_', 'A', 'D', 'V',
+        0x05, ESP_BLE_AD_MANUFACTURER_SPECIFIC_TYPE, 0x05, 0x06, 0x07, 0x08 // Manufacturer Specific Data
 };
 
 static esp_ble_gap_ext_adv_t ext_adv[1] = {

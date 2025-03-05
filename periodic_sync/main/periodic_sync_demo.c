@@ -109,24 +109,20 @@ static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param
     case ESP_GAP_BLE_EXT_ADV_REPORT_EVT: {
         uint8_t *adv_name = NULL;
         uint8_t adv_name_len = 0;
-	    adv_name = esp_ble_resolve_adv_data_by_type(param->ext_adv_report.params.adv_data,
-                                            param->ext_adv_report.params.adv_data_len,
-                                            ESP_BLE_AD_TYPE_NAME_CMPL,
-                                            &adv_name_len);
-	    if ((adv_name != NULL) && (memcmp(adv_name, remote_device_name, adv_name_len) == 0) && !periodic_sync) {
-            // Note: If there are multiple devices with the same device name, the device may sync to an unintended one.
-            // It is recommended to change the default device name to ensure it is unique.
-            periodic_sync = true;
-	        char adv_temp_name[30] = {'0'};
-	        memcpy(adv_temp_name, adv_name, adv_name_len);
-	        ESP_LOGI(LOG_TAG, "Create sync with the peer device %s", adv_temp_name);
-            periodic_adv_sync_params.sid = param->ext_adv_report.params.sid;
-	        periodic_adv_sync_params.addr_type = param->ext_adv_report.params.addr_type;
-	        memcpy(periodic_adv_sync_params.addr, param->ext_adv_report.params.addr, sizeof(esp_bd_addr_t));
-            esp_ble_gap_periodic_adv_create_sync(&periodic_adv_sync_params);
-	    }
+        adv_name = esp_ble_resolve_adv_data_by_type(param->ext_adv_report.params.adv_data,
+                                                    param->ext_adv_report.params.adv_data_len,
+                                                    ESP_BLE_AD_TYPE_NAME_CMPL,
+                                                    &adv_name_len);
+        if ((adv_name != NULL) && (memcmp(adv_name, remote_device_name, adv_name_len) == 0)) {
+            char adv_temp_name[30] = {'0'};
+            memcpy(adv_temp_name, adv_name, adv_name_len);
+            ESP_LOGI(LOG_TAG, "Received advertising packet from peer device %s", adv_temp_name);
+            // Process the advertising data here
+            // For example, log the data
+            ESP_LOGI(LOG_TAG, "Advertising data: %.*s", param->ext_adv_report.params.adv_data_len, param->ext_adv_report.params.adv_data);
+        }
     }
-        break;
+    break;
     case ESP_GAP_BLE_PERIODIC_ADV_REPORT_EVT:
         ESP_LOGI(LOG_TAG, "Periodic adv report, sync handle %d, data status %d, data len %d, rssi %d, data %s", param->period_adv_report.params.sync_handle,
                                                                                                     param->period_adv_report.params.data_status,
