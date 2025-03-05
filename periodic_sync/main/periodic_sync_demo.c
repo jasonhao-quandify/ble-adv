@@ -120,7 +120,23 @@ static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param
             // Process the advertising data here
             // For example, log the data
             ESP_LOGI(LOG_TAG, "Advertising data: %.*s", param->ext_adv_report.params.adv_data_len, param->ext_adv_report.params.adv_data);
+
+            // Extract and log manufacturer-specific data
+            uint8_t *manuf_data = NULL;
+            uint8_t manuf_data_len = 0;
+            manuf_data = esp_ble_resolve_adv_data_by_type(param->ext_adv_report.params.adv_data,
+                                                        param->ext_adv_report.params.adv_data_len,
+                                                        ESP_BLE_AD_MANUFACTURER_SPECIFIC_TYPE,
+                                                        &manuf_data_len);
+            if (manuf_data != NULL) {
+                ESP_LOGI(LOG_TAG, "Manufacturer Specific Data: ");
+                for (int i = 0; i < manuf_data_len; i++) {
+                    ESP_LOGI(LOG_TAG, "%02x ", manuf_data[i]);
+                }
+            }
         }
+
+  
     }
     break;
     case ESP_GAP_BLE_PERIODIC_ADV_REPORT_EVT:
@@ -190,7 +206,6 @@ void app_main(void)
 
     FUNC_SEND_WAIT_SEM(esp_ble_gap_set_ext_scan_params(&ext_scan_params), test_sem);
     FUNC_SEND_WAIT_SEM(esp_ble_gap_start_ext_scan(EXT_SCAN_DURATION, EXT_SCAN_PERIOD), test_sem);
-
 
     return;
 }
